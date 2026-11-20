@@ -117,6 +117,47 @@ git stash drop     # 手动扔掉一个口袋
 
 > 后进先出；`pop` 会删口袋，`apply` 不删。
 
+### PR 冲突处理（本地解决）
+
+```bash
+# 1. 切回 master 拉最新
+git checkout master && git pull
+# 2. 切回 feature，把最新 master 合并进来
+git checkout feature/xxx
+git merge master              # → 出现 CONFLICT
+# 3. 编辑冲突文件：删掉 <<<<<<< ======= >>>>>>> 标记，留下最终内容
+# 4. 提交并推送
+git add 冲突文件
+git commit -m "合并 master，解决冲突"
+git push
+# 5. 回 GitHub：冲突提示消失 → Merge pull request → 清理分支
+```
+
+### reflog（后悔药）
+
+```bash
+git reflog                  # 看 HEAD 的移动记录（本地，约保留 90 天）
+git reset --hard HEAD@{1}   # 回到"上一个位置"
+git reset --hard <提交id>   # 回到指定提交（从 reflog 里找 id）
+```
+
+> 手滑 `reset --hard` 删了提交？reflog 里翻出来复活。
+> 但 **reflog 救不了"从未 commit 过的改动"**（没进过 Git 的东西它管不了），也换不了电脑。
+
+### tag（版本标签）
+
+```bash
+git tag                      # 列出所有标签
+git tag -a v1.0.0 -m "说明"   # 创建附注标签（推荐）
+git tag -a v1.0.0 -m "说明" <提交id>   # 打在历史提交上
+git push origin v1.0.0       # 推单个标签
+git push origin --tags       # 推所有标签
+git show v1.0.0              # 看标签详情
+git tag -d v1.0.0            # 删本地标签
+```
+
+> **坑：`git push` 默认不推 tag！** 标签要单独推，否则 GitHub 上看不到。
+
 ### 团队协作（PR 工作流）
 
 ```bash

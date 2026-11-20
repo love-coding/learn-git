@@ -16,7 +16,9 @@
 | `08-pull-request/` | Pull Request 工作流（团队协作核心） | ✅ 已完成 |
 | `09-reset-and-revert/` | reset 与 revert（提交之后想反悔） | ✅ 已完成 |
 | `10-stash/` | stash 临时收纳改动 | ✅ 已完成 |
-| `11-pr-conflicts/` | PR 冲突处理（进阶） | ✅ 进行中 |
+| `11-pr-conflicts/` | PR 冲突处理（进阶） | ✅ 已完成 |
+| `12-reflog/` | reflog 后悔药（保命技能） | ✅ 已完成 |
+| `13-tag/` | tag 版本标签 | ✅ 已完成 |
 
 ## 进度打卡
 
@@ -30,6 +32,9 @@
 - [x] demo 8：走通"建分支 → 推分支 → 开 PR → 审查 → 合并 → 清理"全流程
 - [x] demo 9：会 reset（三种模式）与 revert，知道该用哪个
 - [x] demo 10：会用 stash 临时收纳改动（含 -u）
+- [x] demo 11：会处理 PR 冲突（本地同步 master → 解决 → 推送 → 合并）
+- [x] demo 12：会用 reflog 找回"丢失"的提交
+- [x] demo 13：会打标签并推送到 GitHub
 
 ## 常用操作速查（忘了就翻 cheatsheet.md）
 
