@@ -89,6 +89,48 @@ git clone 仓库地址               # 把远程仓库完整复制到本地
 
 > 推送报认证错误时：GitHub 不接受网页密码，用 Token 或 GitHub CLI（`gh auth login`）。
 
+### 回退与反悔
+
+```bash
+# reset：倒带（改写历史，后面的提交消失）
+git reset --soft HEAD~1     # 退存档，改动留暂存区（绿）
+git reset HEAD~1            # 默认 mixed：改动退到工作区（红）
+git reset --hard HEAD~1     # 全丢（危险！）
+
+# revert：新增一条"反向提交"抵消（保留历史）
+git revert --no-edit HEAD   # 抵消最近一次提交（--no-edit 跳过编辑器）
+```
+
+> **没推送 → reset 随便用；已推送 → 用 revert。**
+> `HEAD~1` = 往前数 1 个提交，`HEAD~2` = 往前 2 个（不用记 id）。
+
+### stash（临时收纳改动）
+
+```bash
+git stash          # 收起改动（工作区立刻变干净）
+git stash -u       # 连"未跟踪的新文件"一起收（默认不收！）
+git stash list     # 看口袋列表（stash@{0} 是最近一次的）
+git stash pop      # 掏出最近一次，并删掉该口袋
+git stash apply    # 掏出改动但保留口袋
+git stash drop     # 手动扔掉一个口袋
+```
+
+> 后进先出；`pop` 会删口袋，`apply` 不删。
+
+### 团队协作（PR 工作流）
+
+```bash
+git pull                                  # 先同步最新代码
+git checkout -b feature/xxx               # 建功能分支
+# 开发 → git add → git commit
+git push -u origin feature/xxx            # 推分支到 GitHub
+# 网页：Compare & pull request → Create pull request
+# 网页：Files changed 审查 → Merge pull request → Delete branch
+git checkout master && git pull           # 回主线同步
+git branch -d feature/xxx                 # 删本地分支
+git push origin --delete feature/xxx      # 删远程分支
+```
+
 ### 踩坑：网络报错
 
 ```bash
@@ -136,6 +178,8 @@ __pycache__/
 - **合并前保持工作区干净**（先提交或丢弃改动），否则 Git 会拦着不让你合并。
 - **解决冲突必须删干净标记**（`<<<<<<<`、`=======`、`>>>>>>>`），改完 `git add` 再 `commit`。
 - 合并完及时删掉没用的分支：`git branch -d 分支名`。
+- **`git reset --hard` 会真丢改动**，手滑前先看 `git status`；真丢了用 `git reflog` 救命（进阶）。
+- **stash 默认不收新文件**（未跟踪），想收干净用 `git stash -u`。
 
 ## 四、排查口诀
 
